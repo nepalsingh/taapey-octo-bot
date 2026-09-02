@@ -1,0 +1,44 @@
+# Copy to config.yaml and adjust. ticker and otm_percent are the primary knobs.
+
+ticker: SPY
+
+# Used for both legs unless the per-leg overrides below are set:
+#   put strike  = current price * (1 - otm_percent)
+#   call strike = previous close * (1 + otm_percent)
+otm_percent: 0.03
+
+# Optional per-leg overrides (null = use otm_percent)
+put_otm_percent: null
+call_otm_percent: null
+
+# Contracts per cycle (1 contract = 100 shares)
+quantity: 1
+
+# Prefer this many calendar days to expiry (1 = next-day / near-dated)
+dte: 1
+
+# Round strikes to this increment (SPY weeklies are typically $1)
+strike_increment: 1.0
+
+# IB TWS / IB Gateway API
+ib:
+  host: 127.0.0.1
+  port: 7497          # 7497 paper TWS, 7496 live TWS, 4002 paper Gateway, 4001 live Gateway
+  client_id: 7
+  timeout_sec: 30
+
+# Order handling
+order:
+  # Limit as a fraction of the bid-ask mid: 1.0 = mid, 0.0 = bid (more fill, less premium)
+  limit_vs_mid: 0.5
+  wait_fill_sec: 30
+  tif: DAY
+
+# When true, evaluate and log intended orders but do not send them
+dry_run: true
+
+# Persist last action so restarts do not double-enter
+state_path: data/wheel_state.json
+
+# Loop mode (ignored when --once is passed)
+poll_seconds: 60

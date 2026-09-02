@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ib-wheel-bot"
+version = "0.1.0"
+description = "Interactive Brokers options wheel bot (cash-secured puts and covered calls)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ib-insync>=0.9.86",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+wheel-bot = "wheel_bot.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
